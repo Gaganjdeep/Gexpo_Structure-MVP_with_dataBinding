@@ -2,7 +2,6 @@ package ggn.home.help.Features.TestPackage;
 
 import android.content.Context;
 import android.content.Intent;
-import android.databinding.DataBindingUtil;
 import android.os.Parcelable;
 import android.view.View;
 
@@ -10,9 +9,8 @@ import ggn.home.help.Features.Internal.Base.BaseActivity;
 import ggn.home.help.R;
 import ggn.home.help.databinding.ActivityTestBinding;
 
-public class TestActivity extends BaseActivity<TestPresenter> implements TestView
+public class TestActivity extends BaseActivity<ActivityTestBinding, TestPresenter> implements TestView
 {
-    private ActivityTestBinding binding;
 
     public static <T> void start(Context context, T data)
     {
@@ -39,7 +37,6 @@ public class TestActivity extends BaseActivity<TestPresenter> implements TestVie
     @Override
     protected void onCreateActivityG()
     {
-        binding = DataBindingUtil.setContentView(this, setLayoutId());
         injectPresenter(new TestPresenter());
         getPresenter().attachView(this);
     }
@@ -47,14 +44,14 @@ public class TestActivity extends BaseActivity<TestPresenter> implements TestVie
     @Override
     public void setReview(TestModel testModel)
     {
-        binding.setReview(testModel);
+        getDataBinder().setReview(testModel);
     }
 
     @Override
     public void initViews()
     {
 //        setupToolbar("Gagan");
-        binding.saveReview.setOnClickListener(new View.OnClickListener()
+        getDataBinder().saveReview.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)

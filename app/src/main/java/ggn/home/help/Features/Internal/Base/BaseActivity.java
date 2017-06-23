@@ -1,5 +1,7 @@
 package ggn.home.help.Features.Internal.Base;
 
+import android.databinding.DataBindingUtil;
+import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -17,9 +19,10 @@ import ggn.home.help.UtilsG.SharedPrefHelper;
 /**
  * Created by G-Expo on 03 Mar 2017.
  */
-public abstract class BaseActivity<T extends Presentable> extends AppCompatActivity implements Viewable<T>
+public abstract class BaseActivity<B extends ViewDataBinding,T extends Presentable> extends AppCompatActivity implements Viewable<T>
 {
     protected T presenter;
+    protected B binding;
 
     /**
      * {@inheritDoc}
@@ -69,7 +72,9 @@ public abstract class BaseActivity<T extends Presentable> extends AppCompatActiv
     protected void onCreate(@Nullable Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(setLayoutId());
+//        setContentView(setLayoutId());
+        binding = DataBindingUtil.setContentView(this, setLayoutId());
+
         onCreateActivityG();
         getPresenter().onViewCreated();
     }
@@ -134,6 +139,13 @@ public abstract class BaseActivity<T extends Presentable> extends AppCompatActiv
     {
         return presenter;
     }
+
+    public B getDataBinder()
+    {
+        return binding;
+    }
+
+
 
     /**
      * {@inheritDoc}
